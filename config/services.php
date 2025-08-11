@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'omie_api' => [
+        'app_key' => env('APP_KEY'),
+        'app_secret' => env('APP_SECRET'),
+    ],
+
 ];
