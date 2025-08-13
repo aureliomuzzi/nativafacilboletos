@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\OmieApi;
+use App\Services\OmieApiService;
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -12,7 +12,7 @@ class ObterBoletoController extends Controller
      * GET /api/omie/contas-receber
      * Ex.: /api/omie/contas-receber?pagina=1&registros_por_pagina=50&apenas_importado_api=N&dt_inicio=2025-08-01&dt_fim=2025-08-31
      */
-    public function index(Request $request, OmieApi $api)
+    public function index(Request $request, OmieApiService $api)
     {
         $paginaInicial   = (int) $request->query('pagina', 1);
         $porPagina       = (int) $request->query('registros_por_pagina', 50);
