@@ -6,7 +6,7 @@ use App\Models\Client;
 use App\Services\OmieApiService;
 use Exception;
 
-class ClienteService
+class ClientOmieService
 {
     protected $omieApi;
 
@@ -15,7 +15,7 @@ class ClienteService
         $this->omieApi = $omieApi;
     }
 
-    public function salvarClientes(int $pagina = 1, int $porPagina = 20, string $apenasImportadoApi = 'N', array $filtrosExtras = [])
+    public function salvarClientes(int $pagina = 0, int $porPagina = 0, string $apenasImportadoApi = 'N', array $filtrosExtras = [])
     {
         try {
             // Chama a API para listar os clientes
@@ -24,7 +24,7 @@ class ClienteService
             // Itera sobre cada cliente e salva no banco
             foreach ($response['clientes_cadastro'] as $clienteData) {
                 Client::updateOrCreate(
-                    ['id' => $clienteData['id']], // Se já existir, será atualizado
+                    ['cnpj_cpf' => $clienteData['cnpj_cpf']], // Se já existir, será atualizado
                     [
                         'codigo_cliente_omie'    => $clienteData['codigo_cliente_omie'],
                         'razao_social'   => $clienteData['razao_social'],
@@ -32,7 +32,7 @@ class ClienteService
                         'cnpj_cpf'=> $clienteData['cnpj_cpf'],
                         'estado'=> $clienteData['estado'],
                         'pessoa_fisica'=> $clienteData['pessoa_fisica'],
-                        'tag'=> $clienteData['tag'],
+                        'tags'=> json_encode($clienteData['tags']),
                         'inativo'=> $clienteData['inativo'],
                     ]
                 );

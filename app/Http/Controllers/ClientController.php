@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Services\ClienteService;
+use App\Services\ClientOmieService;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     protected $clientService;
 
-    public function __construct(ClienteService $clientService)
+    public function __construct(ClientOmieService $clientService)
     {
         $this->clientService = $clientService;
     }

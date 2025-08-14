@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('cnpj_cpf', 20);
             $table->string('estado',2);
             $table->string('pessoa_fisica', 1);
-            $table->string('tag', 15);  // Cliente | Operadora | Corretora
+            $table->json('tags')->nullable();  // Cliente | Operadora | Corretora
             $table->string('inativo', 1);
 
             $table->timestamps();

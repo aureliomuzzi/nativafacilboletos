@@ -6,80 +6,96 @@ use Illuminate\Support\Facades\Http;
 
 class OmieApiService
 {
-    protected string $api_url;
+    // URL base da API Omie
+    protected string $base_url;
     protected string $app_key;
     protected string $app_secret;
 
     public function __construct()
     {
-        $this->api_url    = config('services.omie_api.api_omie_url');   // ex: https://app.omie.com.br/api/v1/financas/contareceber/
-        $this->app_key    = config('services.omie_api.app_omie_key');
-        $this->app_secret = config('services.omie_api.app_omie_secret');
-    }
-
-    protected function client()
-    {
-        return Http::baseUrl($this->api_url)  // << usar a URL, não a key
-            ->timeout(15)
-            ->retry(3, 200)
-            ->acceptJson(); // Http já envia JSON por padrão quando passamos array
+        // Definindo URL base e chaves da API
+        $this->base_url  = config('services.omie_api.api_omie_url');   // Exemplo: https://app.omie.com.br/api/v1
+        $this->app_key   = config('services.omie_api.app_omie_key');
+        $this->app_secret= config('services.omie_api.app_omie_secret');
     }
 
     /**
-     * Lista contas a receber na Omie.
-     * @param int    $pagina
-     * @param int    $porPagina
-     * @param string $apenasImportadoApi 'S' ou 'N'
-     * @param array  $filtrosExtras      filtros opcionais aceitos pela Omie (ex.: dt_inicio, dt_fim, etc.)
+     * Retorna o client com a URL base e headers padrão
      */
-    
-    public function listarContasReceber(
-        int $pagina = 1,
-        int $porPagina = 20,
-        string $apenasImportadoApi = 'N',
-        array $filtrosExtras = []
-    ) {
-        $param = array_merge([
-            "pagina"               => $pagina,
-            "registros_por_pagina" => $porPagina,
-            "apenas_importado_api" => $apenasImportadoApi
-        ], $filtrosExtras);
+    protected function client()
+    {
+        return Http::baseUrl($this->base_url)  // URL base
+            ->timeout(15)
+            ->retry(3, 200)
+            ->acceptJson(); // Envia JSON por padrão
+    }
 
+    /**
+     * Função genérica para realizar um POST na API
+     * @param string $endpoint Endpoint adicional após a URL base
+     * @param array $param Dados para o POST
+     * @return array Resposta da API
+     */
+    protected function postToOmie(string $endpoint, array $param): array
+    {
         $payload = [
-            "call"       => "ListarContasReceber",
+            "call"       => $param['call'],
             "app_key"    => $this->app_key,
             "app_secret" => $this->app_secret,
-            "param"      => [ $param ] // << precisa ser array de 1 objeto
+            "param"      => $param['param'] // Omie exige um array de objetos
         ];
-
-        // Se api_url já é o endpoint completo, pode usar post('') com baseUrl
-        $response = $this->client()->post('', $payload)->throw();
-
+        
+        // Realiza o POST para a URL completa (base_url + endpoint)
+        $response = $this->client()->post($endpoint, $payload)->throw();
+       
         return $response->json();
     }
 
-    public function listarClientes (
-        int $pagina = 1,
-        int $porPagina = 20,
+    /**
+     * Lista as contas a receber
+     * @param int    $pagina
+     * @param int    $porPagina
+     * @param string $apenasImportadoApi 'S' ou 'N'
+     * @param array  $filtrosExtras      Filtros adicionais
+     * @return array Dados da API
+     */
+    public function listarContasReceber(
+        int $pagina = 0,
+        int $porPagina = 0,
         string $apenasImportadoApi = 'N',
         array $filtrosExtras = []
     ) {
         $param = array_merge([
-            "pagina"               => $pagina,
-            "registros_por_pagina" => $porPagina,
             "apenas_importado_api" => $apenasImportadoApi
         ], $filtrosExtras);
 
-        $payload = [
-            "call"       => "ListarClientes",
-            "app_key"    => $this->app_key,
-            "app_secret" => $this->app_secret,
-            "param"      => [ $param ] // << precisa ser array de 1 objeto
-        ];
+        return $this->postToOmie('financas/contasreceber/', [
+            'call' => 'ListarContasReceber',
+            'param' => $param
+        ]);
+    }
 
-        // Se api_url já é o endpoint completo, pode usar post('') com baseUrl
-        $response = $this->client()->post('', $payload)->throw();
-
-        return $response->json();
+    /**
+     * Lista os clientes
+     * @param int    $pagina
+     * @param int    $porPagina
+     * @param string $apenasImportadoApi 'S' ou 'N'
+     * @param array  $filtrosExtras      Filtros adicionais
+     * @return array Dados da API
+     */
+    public function listarClientes(
+        int $pagina = 0,
+        int $porPagina = 0,
+        string $apenasImportadoApi = 'N',
+        array $filtrosExtras = []
+    ) {
+        $param = array_merge([
+            "apenas_importado_api" => $apenasImportadoApi
+        ], $filtrosExtras);
+        
+        return $this->postToOmie('geral/clientes/', [
+            'call' => 'ListarClientes',
+            'param' => [$param]
+        ]);
     }
 }
