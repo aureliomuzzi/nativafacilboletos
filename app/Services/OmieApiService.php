@@ -82,4 +82,22 @@ class OmieApiService
             'param' => [$param]
         ]);
     }
+
+    /**
+     * Obter boletos
+     * @param string $nCodTitulo
+     * @param string $cCodIntTitulo 
+     * @return array Dados da API
+     */
+    public function obterBoletos(string $nCodTitulo, string $cCodIntTitulo = '') {
+        $param = array_merge([
+            "codigo_titulo" => $nCodTitulo,
+            "codigo_int_titulo" => $cCodIntTitulo
+        ]);
+        
+        return $this->postToOmie('financas/contareceberboleto/', [
+            'call' => 'ObterBoleto',
+            'param' => [$param]
+        ]);
+    }
 }
