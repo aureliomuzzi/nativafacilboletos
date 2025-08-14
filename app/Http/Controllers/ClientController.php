@@ -21,12 +21,10 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         // Pega parâmetros da query string ou usa valores padrão
-        $paginaInicial   = (int) $request->query('pagina', 1);
-        $porPagina       = (int) $request->query('registros_por_pagina', 20);
         $apenasImportado = (string) $request->query('apenas_importado_api', 'N');
 
         // Chama o método do serviço para listar e salvar
-        return $this->clientService->salvarClientes($paginaInicial, $porPagina, $apenasImportado);
+        return $this->clientService->salvarClientes($apenasImportado);
     }
 
     /**

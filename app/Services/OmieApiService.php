@@ -53,21 +53,13 @@ class OmieApiService
 
     /**
      * Lista as contas a receber
-     * @param int    $pagina
-     * @param int    $porPagina
      * @param string $apenasImportadoApi 'S' ou 'N'
-     * @param array  $filtrosExtras      Filtros adicionais
      * @return array Dados da API
      */
-    public function listarContasReceber(
-        int $pagina = 0,
-        int $porPagina = 0,
-        string $apenasImportadoApi = 'N',
-        array $filtrosExtras = []
-    ) {
+    public function listarContasReceber(string $apenasImportadoApi = 'N') {
         $param = array_merge([
             "apenas_importado_api" => $apenasImportadoApi
-        ], $filtrosExtras);
+        ]);
 
         return $this->postToOmie('financas/contasreceber/', [
             'call' => 'ListarContasReceber',
@@ -77,21 +69,13 @@ class OmieApiService
 
     /**
      * Lista os clientes
-     * @param int    $pagina
-     * @param int    $porPagina
      * @param string $apenasImportadoApi 'S' ou 'N'
-     * @param array  $filtrosExtras      Filtros adicionais
      * @return array Dados da API
      */
-    public function listarClientes(
-        int $pagina = 0,
-        int $porPagina = 0,
-        string $apenasImportadoApi = 'N',
-        array $filtrosExtras = []
-    ) {
+    public function listarClientes(string $apenasImportadoApi = 'N') {
         $param = array_merge([
             "apenas_importado_api" => $apenasImportadoApi
-        ], $filtrosExtras);
+        ]);
         
         return $this->postToOmie('geral/clientes/', [
             'call' => 'ListarClientes',

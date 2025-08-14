@@ -15,11 +15,11 @@ class ClientOmieService
         $this->omieApi = $omieApi;
     }
 
-    public function salvarClientes(int $pagina = 0, int $porPagina = 0, string $apenasImportadoApi = 'N', array $filtrosExtras = [])
+    public function salvarClientes(string $apenasImportadoApi = 'N')
     {
         try {
             // Chama a API para listar os clientes
-            $response = $this->omieApi->listarClientes($pagina, $porPagina, $apenasImportadoApi, $filtrosExtras);
+            $response = $this->omieApi->listarClientes($apenasImportadoApi);
             
             // Itera sobre cada cliente e salva no banco
             foreach ($response['clientes_cadastro'] as $clienteData) {
