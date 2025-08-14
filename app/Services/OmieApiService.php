@@ -61,7 +61,7 @@ class OmieApiService
             "apenas_importado_api" => $apenasImportadoApi
         ]);
 
-        return $this->postToOmie('financas/contasreceber/', [
+        return $this->postToOmie('financas/contareceber/', [
             'call' => 'ListarContasReceber',
             'param' => $param
         ]);

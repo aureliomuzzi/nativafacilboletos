@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-use App\Http\Controllers\ObterBoletoController;
+use App\Http\Controllers\CustomerReceiveController;
 use App\Http\Controllers\ClientController;
 
-Route::get('/omie/contas-receber', [ObterBoletoController::class, 'index']);
+Route::get('/omie/contas-receber', [CustomerReceiveController::class, 'index']);
 Route::get('/omie/clientes', [ClientController::class, 'index']);
