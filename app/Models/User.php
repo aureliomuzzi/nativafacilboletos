@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'cnpj_cpf',
+        'status_user',
         'email',
         'password',
     ];
