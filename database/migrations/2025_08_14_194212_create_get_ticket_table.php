@@ -16,11 +16,12 @@ return new class extends Migration
 
             $table->string('codigo_titulo'); // nCodTitulo
             $table->string('codigo_int_titulo')->nullable(); // cCodIntTitulo
-            $table->string('codigo_status'); // cCodStatus
+            $table->string('codigo_status')->nullable(); // cCodStatus
+            $table->string('codigo_descricao_status')->nullable(); // cDesStatus
             $table->string('data_emissao_boleto', 10)->nullable(); // dDtEmBol
             $table->string('numero_boleto')->nullable(); // cNumBoleto
             $table->string('codigo_barras')->nullable(); // cCodBarras
-            $table->string('link_boleto')->nullable(); // cLinkBoleto
+            $table->text('link_boleto')->nullable(); // cLinkBoleto
 
             $table->timestamps();
         });
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('get_ticket');
+        Schema::dropIfExists('get_tickets');
     }
 };

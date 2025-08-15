@@ -6,7 +6,7 @@ use App\Models\GetTicket;
 use App\Services\GetTicketOmieService;
 use Illuminate\Http\Request;
 
-class TicketController extends Controller
+class GetTicketController extends Controller
 {
     protected $getTicketService;
 
@@ -20,7 +20,7 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-        //
+       return $this->getTicketService->chamarBoleto();
     }
 
     /**

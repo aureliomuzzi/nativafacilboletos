@@ -44,7 +44,7 @@ class OmieApiService
             "app_secret" => $this->app_secret,
             "param"      => $param['param'] // Omie exige um array de objetos
         ];
-        
+        // dd($endpoint, $payload);
         // Realiza o POST para a URL completa (base_url + endpoint)
         $response = $this->client()->post($endpoint, $payload)->throw();
        
@@ -91,13 +91,13 @@ class OmieApiService
      */
     public function obterBoletos(string $nCodTitulo, string $cCodIntTitulo = '') {
         $param = array_merge([
-            "codigo_titulo" => $nCodTitulo,
-            "codigo_int_titulo" => $cCodIntTitulo
+            "nCodTitulo" => $nCodTitulo,
+            "cCodIntTitulo" => $cCodIntTitulo
         ]);
         
         return $this->postToOmie('financas/contareceberboleto/', [
             'call' => 'ObterBoleto',
-            'param' => [$param]
+            'param' => $param
         ]);
     }
 }
