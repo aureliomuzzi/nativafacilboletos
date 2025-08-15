@@ -13,14 +13,13 @@
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
-
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
+                            <label for="cnpj_cpf" class="col-md-4 col-form-label text-md-end">{{ __('CNPJ/CPF') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="cnpj_cpf" type="text" class="form-control @error('cnpj_cpf') is-invalid @enderror" name="cnpj_cpf" value="{{ old('cnpj_cpf') }}" required autocomplete="cnpj_cpf" autofocus>
 
-                                @error('email')
+                                @error('cnpj_cpf')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

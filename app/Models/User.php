@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'cnpj_cpf',
         'status_user',
+        'tipo_user',
         'email',
         'password',
     ];

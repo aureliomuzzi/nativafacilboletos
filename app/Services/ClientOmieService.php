@@ -58,6 +58,7 @@ class ClientOmieService
             [
                 'name' => $razaoSocial,
                 'cnpj_cpf' => $cnpjCpf,
+                'tipo_user' => 'Cliente',
                 'email' => $emailCpf . '@nativafacil.com',
                 'password' => bcrypt($senhaCpf),
             ]

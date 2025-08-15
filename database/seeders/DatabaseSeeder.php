@@ -16,9 +16,11 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Aurelio',
-            'email' => 'aureliomuzzi@gmail.com',
-            'password' => bcrypt('123'),
+            'name' => 'NATIVA FACIL CORRETORA',
+            'email' => 'contato@nativafacil.com.br',
+            'cnpj_cpf' => '27.244.981/0001-79',
+            'tipo_user' => 'Corretora Master',
+            'password' => bcrypt('27244981000179'),
         ]);
     }
 }

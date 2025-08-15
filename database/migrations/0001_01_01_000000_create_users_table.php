@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('cnpj_cpf', 20)->unique();
             $table->string('email')->unique();
+            $table->string('tipo_user');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('status_user')->default(1);
