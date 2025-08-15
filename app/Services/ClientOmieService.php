@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Client;
+use App\Models\User;
 use App\Services\OmieApiService;
+use App\Helpers\FuncoesHelper;
 use Exception;
 
 class ClientOmieService
@@ -26,8 +28,8 @@ class ClientOmieService
                 Client::updateOrCreate(
                     ['cnpj_cpf' => $clienteData['cnpj_cpf']], // Se já existir, será atualizado
                     [
-                        'codigo_cliente_omie'    => $clienteData['codigo_cliente_omie'],
-                        'razao_social'   => $clienteData['razao_social'],
+                        'codigo_cliente_omie' => $clienteData['codigo_cliente_omie'],
+                        'razao_social' => $clienteData['razao_social'],
                         'nome_fantasia'=> $clienteData['nome_fantasia'],
                         'cnpj_cpf'=> $clienteData['cnpj_cpf'],
                         'estado'=> $clienteData['estado'],
@@ -36,11 +38,29 @@ class ClientOmieService
                         'inativo'=> $clienteData['inativo'],
                     ]
                 );
+
+                $this->criarUsuario($clienteData['cnpj_cpf'], $clienteData['razao_social']);
             }
 
             return response()->json(['message' => 'Clientes salvos com sucesso!']);
         } catch (Exception $e) {
             return response()->json(['error' => 'Erro ao salvar clientes: ' . $e->getMessage()], 500);
         }
+    }
+
+    public function criarUsuario(string $cnpjCpf, string $razaoSocial)
+    {
+        $senhaCpf = FuncoesHelper::removerCaracter($cnpjCpf);
+        $emailCpf = FuncoesHelper::removerCaracter($cnpjCpf);
+
+        User::updateOrCreate(
+            ['cnpj_cpf' => $cnpjCpf], // Se já existir, será atualizado
+            [
+                'name' => $razaoSocial,
+                'cnpj_cpf' => $cnpjCpf,
+                'email' => $emailCpf . '@abc.com',
+                'password' => bcrypt($senhaCpf),
+            ]
+        );   
     }
 }
